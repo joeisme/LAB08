@@ -1,0 +1,49 @@
+#include <Ultrasonic.h>
+#include <LiquidCrystal.h>
+#define TRIGGER_PIN 12
+#define ECHO_PIN 13
+const byte intPin = 6;
+Ultrasonic ultrasonic(TRIGGER_PIN, ECHO_PIN);
+LiquidCrystal lcd(14, 11, 5, 4, 3, 8); 
+void setup()
+{
+  pinMode (intPin,INPUT_PULLUP);
+  attachInterrupt (6, int0, LOW);
+  lcd.begin(16, 2);
+  Serial.begin(9600);
+  pinMode (10,INPUT);
+}
+void loop()
+{
+  if(digitalRead(10))
+  {
+  if (digitalRead(intPin))
+  {
+    int0();
+    
+    }
+    else
+     delay(1000);
+    }
+    else 
+    int0();
+}
+
+void int0()
+{
+  float cmMsec, inMsec;
+  long microsec = ultrasonic.Timing();
+  cmMsec = ultrasonic.Ranging(CM); 
+
+  lcd.setCursor(0, 0);
+  lcd.print("MS=");
+  lcd.print(microsec);
+  lcd.print("ms");
+  lcd.setCursor(0,1);
+  lcd.print("CM");
+  lcd.print(cmMsec);
+  lcd.print("s");
+   Serial.print("MS: "); Serial.print(microsec);
+  Serial.print(", CM: "); Serial.print(cmMsec);
+  delay(100);
+}

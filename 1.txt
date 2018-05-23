@@ -1,0 +1,29 @@
+#include <Ultrasonic.h>
+#include <LiquidCrystal.h>
+#define TRIGGER_PIN 12
+#define ECHO_PIN 13
+Ultrasonic ultrasonic(TRIGGER_PIN, ECHO_PIN);
+LiquidCrystal lcd(14, 11, 5, 4, 3, 8); 
+void setup()
+{
+  lcd.begin(16, 2);
+  Serial.begin(9600);
+}
+void loop()
+{
+  float cmMsec, inMsec;
+  long microsec = ultrasonic.Timing();
+  cmMsec = ultrasonic.Ranging(CM); 
+
+  lcd.setCursor(0, 0);
+  lcd.print("MS=");
+  lcd.print(microsec);
+  lcd.print("ms");
+  lcd.setCursor(0,1);
+  lcd.print("CM");
+  lcd.print(cmMsec);
+  lcd.print("s");
+   Serial.print("MS: "); Serial.print(microsec);
+  Serial.print(", CM: "); Serial.print(cmMsec);
+  delay(1000);
+}
